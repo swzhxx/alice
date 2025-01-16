@@ -47,7 +47,7 @@
 
         <!-- Bottom Section - Description -->
         <div class="description-section">
-          <h2 style="color: black">需求详情</h2>
+          <h2 style="color: black">团子不加冰</h2>
           <p>
             你千万别跟任何人谈任何事情。你只要一谈起，就会想念起每一个人来。<br />
             我希望在20出头的生命里，做一件到八十岁想起来都还会微笑的事。
@@ -56,7 +56,26 @@
       </div>
     </ion-content>
     <ion-footer>
-      <div style="height: 59px; background: red"></div>
+      <div
+        style="
+          height: 64px;
+          display: flex;
+          padding-left: 16px;
+          padding-right: 16px;
+          padding-top: 5px;
+          padding-bottom: 5px;
+        "
+      >
+        <IonButton color="dark" style="flex: 1">帮他穿搭</IonButton>
+        <div style="display: flex; align-items: center; margin-left: 16px">
+          <img
+            style="margin-right: 12px; width: 16px"
+            src="@/assets/comment.svg"
+            alt=""
+          />
+          <span>12</span>
+        </div>
+      </div>
     </ion-footer>
   </ion-page>
 </template>
@@ -66,7 +85,13 @@ import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Thumbs } from 'swiper/modules'
 import Header from '@/components/Header/index.vue'
-import { IonPage, IonHeader, IonContent, IonFooter } from '@ionic/vue'
+import {
+  IonPage,
+  IonHeader,
+  IonContent,
+  IonFooter,
+  IonButton
+} from '@ionic/vue'
 import UserHeaderSlot from '@/components/Header/UserHeaderSlot.vue'
 
 // Import Swiper styles
@@ -155,7 +180,7 @@ function setThumbsSwiper(swiper: any) {
 .description-section {
   flex: 3;
   padding: 16px;
-  background: #f8f8f8;
+  /* background: #f8f8f8; */
   border-top: 1px solid #eee;
   color: black;
 }
