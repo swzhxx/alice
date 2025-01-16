@@ -21,7 +21,11 @@
             alt=""
           />
           <ion-card-header v-if="item.title">
-            <ion-card-title>{{ item.title }}</ion-card-title>
+            <ion-card-title
+              ><span style="font-size: 14px">{{
+                item.title
+              }}</span></ion-card-title
+            >
           </ion-card-header>
           <ion-card-content v-if="item.description">
             {{ item.description }}
@@ -220,5 +224,27 @@ const handleClickItem = (item: any) => {
   max-height: 170px;
   object-fit: cover;
   margin-bottom: 4px;
+}
+ion-card-header {
+  padding: 4px;
+  text-align: left;
+}
+
+ion-card-title {
+  font-size: 14px;
+}
+
+ion-card-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding: 4px;
+  font-size: 12px;
+  text-align: left;
+  line-height: 1.4;
+  max-height: 4.2em; /* 3 lines * 1.4 line-height */
 }
 </style>
