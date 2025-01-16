@@ -5,14 +5,48 @@
         @click="handleClickItem"
         :items="items"
         style="height: 100%"
-      />
+      >
+        <template v-slot:card="{ item }">
+          <img :src="item.image" alt="" class="fixed-height-image" />
+          <img
+            v-if="item.type === Type.Demand"
+            style="
+              position: absolute;
+              top: 0px;
+              left: 2px;
+              width: 42px;
+              height: 19px;
+            "
+            src="@/assets/tingquan.png"
+            alt=""
+          />
+          <ion-card-header v-if="item.title">
+            <ion-card-title>{{ item.title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content v-if="item.description">
+            {{ item.description }}
+          </ion-card-content>
+        </template>
+      </WaterfallGrid>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, useIonRouter } from '@ionic/vue'
+import {
+  IonPage,
+  IonContent,
+  useIonRouter,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent
+} from '@ionic/vue'
 import WaterfallGrid from '@/components/WaterfallGrid.vue'
+
+enum Type {
+  Common = 1,
+  Demand = 2
+}
 
 const ionRouter = useIonRouter()
 const items = [
@@ -24,7 +58,8 @@ const items = [
   {
     image: 'https://picsum.photos/400/300?random=2',
     title: '优雅套装',
-    description: '适合各种场合的完美选择'
+    description: '适合各种场合的完美选择',
+    type: Type.Demand
   },
   {
     image: 'https://picsum.photos/400/300?random=3',
@@ -34,7 +69,8 @@ const items = [
   {
     image: 'https://picsum.photos/400/300?random=4',
     title: '商务正装',
-    description: '专业与时尚的完美结合'
+    description: '专业与时尚的完美结合',
+    type: Type.Demand
   },
   {
     image: 'https://picsum.photos/400/300?random=5',
@@ -168,6 +204,21 @@ const items = [
   }
 ]
 const handleClickItem = (item: any) => {
-  ionRouter.push({ name: 'dress-info' })
+  if (item.type === Type.Demand) {
+    ionRouter.push({ name: 'demands' })
+  } else {
+    ionRouter.push({ name: 'dress-info' })
+  }
 }
 </script>
+
+<style lang="less" scoped>
+.fixed-height-image {
+  /* height: 200px; */
+  width: 100%;
+  min-height: 50px;
+  max-height: 170px;
+  object-fit: cover;
+  margin-bottom: 4px;
+}
+</style>

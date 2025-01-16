@@ -72,7 +72,11 @@ const visibleDemandImages = computed(() => {
 })
 const avatar = ref('https://picsum.photos/200')
 
-const handleToDemandSolvePage = () => {}
+const handleToDemandSolvePage = () => {
+  ionRouter.push({
+    name: 'demand-info'
+  })
+}
 
 const toDressForm = () => {
   ionRouter.push({

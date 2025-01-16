@@ -8,13 +8,15 @@
         class="item"
       >
         <ion-card>
-          <img :src="item.image" alt="" class="fixed-height-image" />
-          <ion-card-header v-if="item.title">
-            <ion-card-title>{{ item.title }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content v-if="item.description">
-            {{ item.description }}
-          </ion-card-content>
+          <slot name="card" :item="item">
+            <img :src="item.image" alt="" class="fixed-height-image" />
+            <ion-card-header v-if="item.title">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content v-if="item.description">
+              {{ item.description }}
+            </ion-card-content>
+          </slot>
         </ion-card>
       </div>
     </div>
@@ -26,13 +28,15 @@
         class="item"
       >
         <ion-card>
-          <img :src="item.image" alt="" class="fixed-height-image" />
-          <ion-card-header v-if="item.title">
-            <ion-card-title>{{ item.title }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content v-if="item.description">
-            {{ item.description }}
-          </ion-card-content>
+          <slot name="card" :item="item">
+            <img :src="item.image" alt="" class="fixed-height-image" />
+            <ion-card-header v-if="item.title">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content v-if="item.description">
+              {{ item.description }}
+            </ion-card-content>
+          </slot>
         </ion-card>
       </div>
     </div>
@@ -48,22 +52,30 @@ import {
   IonCardContent
 } from '@ionic/vue'
 
+interface GridItem {
+  image: string
+  title?: string
+  description?: string
+  width?: number
+  height?: number
+}
+
 const props = defineProps<{
-  items: Array<any>
+  items: Array<GridItem>
 }>()
 
 const emits = defineEmits<{
   click: [value: any]
 }>()
 
-const columns = ref([[], []])
+const columns = ref<GridItem[][]>([[], []])
 const columnHeights = ref([0, 0])
 
 const isLoading = ref(false)
 
-const preloadImages = async (items) => {
+const preloadImages = async (items: GridItem[]) => {
   const promises = items.map((item) => {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       const img = new Image()
       img.src = item.image
       img.onload = () => {
@@ -71,7 +83,7 @@ const preloadImages = async (items) => {
         item.height = img.height
         resolve()
       }
-      img.onerror = resolve
+      img.onerror = () => resolve()
     })
   })
   await Promise.all(promises)
@@ -86,6 +98,8 @@ const distributeItems = async () => {
   await preloadImages(props.items)
 
   props.items.forEach((item) => {
+    if (!item.width || !item.height) return
+    
     // Calculate actual image height based on aspect ratio
     const aspectRatio = item.height / item.width
     const imgHeight = 200 * aspectRatio // Scale based on actual dimensions
